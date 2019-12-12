@@ -1,0 +1,6 @@
+# Phpstorm
+.idea
+
+# Docker
+.env
+db

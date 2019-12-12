@@ -1,0 +1,83 @@
+version: '3.3'
+
+services:
+#web local build
+  web:
+    build:
+      context: apache-php7.4
+      args:
+        HOST_NAME: ${HOST_NAME}
+    volumes:
+      - ../.:/var/www/html/
+      - ~/.ssh:/home/www-data/.ssh
+    env_file: .env
+    # ip of your server, to access to another docker, if you have another project api.myproject.local
+    # replace api.hostname.local with hostname of your docker. traefik will redirect to the good container
+    #    extra_hosts:
+    #      - "api.hostname.local:${HOST_ADDR}"
+    depends_on:
+      - db
+      - mail
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_webgateway"
+      - "traefik.http.routers.web-${COMPOSE_PROJECT_NAME}.rule=Host(`www.${HOST_NAME}`, `${HOST_NAME}`)"
+      - "traefik.http.routers.web-${COMPOSE_PROJECT_NAME}.entrypoints=http"
+      - "traefik.http.routers.webs-${COMPOSE_PROJECT_NAME}.rule=Host(`www.${HOST_NAME}`)"
+      - "traefik.http.routers.webs-${COMPOSE_PROJECT_NAME}.entrypoints=https"
+      - "traefik.http.routers.webs-${COMPOSE_PROJECT_NAME}.tls=true"
+    networks:
+      traefik: ~
+      default: ~
+
+  # Database
+  db:
+    image: postgres:9.4.5
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - /tmp:/tmp
+      - ./db:/var/lib/postgresql/data
+    networks:
+      default:
+        aliases:
+          - db
+    labels:
+      - "traefik.enable=false"
+
+  # phppgadmin image
+  phppgadmin:
+    image: dockage/phppgadmin
+    environment:
+      PHP_PG_ADMIN_SERVER_HOST: db
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_webgateway"
+      - "traefik.http.routers.phppgadmin-${COMPOSE_PROJECT_NAME}.rule=Host(`pma.${HOST_NAME}`)"
+      - "traefik.http.routers.phppgadmin-${COMPOSE_PROJECT_NAME}.entrypoints=http"
+    networks:
+      traefik: ~
+      default: ~
+
+  # mailer
+  mail:
+    image: djfarrelly/maildev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_webgateway"
+      - "traefik.http.routers.mail-${COMPOSE_PROJECT_NAME}.rule=Host(`mail.${HOST_NAME}`)"
+      - "traefik.http.routers.mail-${COMPOSE_PROJECT_NAME}.entrypoints=http"
+      - "traefik.http.services.mail-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=80"
+    networks:
+      traefik: ~
+      default: ~
+
+#Define traefik network
+networks:
+  traefik:
+    external:
+      name: traefik_webgateway
