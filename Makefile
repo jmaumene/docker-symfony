@@ -56,7 +56,7 @@ setup:
 	DB_USER=$${INPUT:-$$DB_USER} ;\
 	read -p "Enter database password [$(DB_PASSWORD)] : " INPUT ;\
 	DB_PASSWORD=$${INPUT:-$$DB_PASSWORD} ;\
-	read -p "Enter database username [$(DB_NAME)] : " INPUT ;\
+	read -p "Enter database name [$(DB_NAME)] : " INPUT ;\
 	DB_NAME=$${INPUT:-$$DB_NAME} ;\
 	read -p "Enter local url [$(HOST_NAME)] : " INPUT ;\
 	HOST_NAME=$${INPUT:-$$HOST_NAME} ;\
@@ -69,8 +69,7 @@ setup:
 	echo HOST_ADDR=$$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+') >> .env; \
 	echo USER_ID=$$(id -u) >> .env; \
 	echo GROUP_ID=$$(id -g) >> .env; \
-
-	@echo Add this line in your /etc/hosts file : ;\
+	echo Add this line in your /etc/hosts file : ;\
 	echo ; \
 	echo "127.0.0.1	$$HOST_NAME www.$$HOST_NAME db.$$HOST_NAME pma.$$HOST_NAME mail.$$HOST_NAME" ;\
 	echo ;

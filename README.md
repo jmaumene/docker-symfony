@@ -17,9 +17,14 @@ See : https://docs.docker.com/compose/install/
 
 ### Make
 ```shell script
-$ sudo apt install make
+$ sudo apt-get install make
 ```
-
+### Traefik (optional)
+See : https://github.com/jmaumene/traefik-docker-proxy
+if you don't want to use my traefik docker, you have to create network :
+```shell script
+docker network create traefik_webgateway
+```
 
 ## Installation
 
@@ -73,7 +78,13 @@ $ make sf-check
 ```
 
 Create Project:
-To check the symfony requirements :
 ```shell script
-$ make exec new --full new-project 
+$ git config --global user.email "julien@maumené.fr"
+$ git config --global user.name "Julien Maumené"
+$ make exec "symfony new --full my_project_name"
 ```
+
+Move all files (including hidden files like .git) from your-project-directory/name-of-project-in-symfony/* to your-project-directory
+
+go to www.project-url.local
+
