@@ -1,5 +1,7 @@
 # Docker for symfony
 
+By Julien Maumené :  http://www.maumene.fr
+
 Docker with:
  - PHP 7.4
  - PostgreSQL 9.4
@@ -21,7 +23,8 @@ $ sudo apt-get install make
 ```
 ### Traefik (optional)
 See : https://github.com/jmaumene/traefik-docker-proxy
-if you don't want to use my traefik docker, you have to create network :
+
+if you don't want to use my traefik docker, you have to create network (or remove it in docker-compose):
 ```shell script
 docker network create traefik_webgateway
 ```
@@ -34,7 +37,7 @@ $ git clone https://github.com/jmaumene/docker-symfony.git docker
 $ tree
 your-project-directory
 ├── docker
-└── public
+└── public (created on setup)
     └── index.php
 
 ```
@@ -79,12 +82,11 @@ $ make sf-check
 
 Create Project:
 ```shell script
-$ git config --global user.email "julien@maumené.fr"
-$ git config --global user.name "Julien Maumené"
+$ make exec "git config --global user.email 'julien@maumené.fr'"
+$ make exec "git config --global user.name 'Julien Maumené'"
 $ make exec "symfony new --full my_project_name"
 ```
 
-Move all files (including hidden files like .git) from your-project-directory/name-of-project-in-symfony/* to your-project-directory
+Move all files (including hidden files like .git directory) from your-project-directory/name-of-project-in-symfony/* to your-project-directory
 
-go to www.project-url.local
-
+Go to www.project-url.local
