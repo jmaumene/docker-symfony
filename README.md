@@ -49,6 +49,11 @@ Run "make setup" and folow instruction
 $ make setup
 ```
 
+Copy dev parameters on your project
+```shell script
+$ make install-config-dev
+```
+
 Run "make up" to run the docker, make stop or make restart
 ```shell script
 $ make up
