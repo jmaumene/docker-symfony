@@ -32,10 +32,10 @@ proxy_fcgi \
 setenvif
 
 # PHP Package https://packages.sury.org/php/README.txt
-RUN apt-get install -y apt-transport-https lsb-release ca-certificates \
-&& wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
-&& sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' \
-&& apt-get update
+RUN apt-get -y install apt-transport-https lsb-release ca-certificates curl
+RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+RUN apt-get update
 
 # Installation of php need dialog and apt-utils are installed before to configure mod
 RUN apt-get install --no-install-recommends -y \
