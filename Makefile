@@ -1,6 +1,6 @@
 # ###############################
-# DOCKER MAKEFILE              #
-# By jmaumene                  #
+# DOCKER MAKEFILE               #
+# By jmaumene                   #
 # ###############################
 #
 # Do not edit parameters, you can change value in .env after setup
@@ -13,7 +13,6 @@ CONFIG_DEST=../app/config/
 
 #Default .env content
 COMPOSE_PROJECT_NAME=docker-project
-
 DB_USER=root
 DB_PASSWORD=root
 DB_NAME=project
@@ -28,21 +27,21 @@ CONSOLE=php app/console
 DC=docker-compose -p $(COMPOSE_PROJECT_NAME)
 EXEC=$(DC) exec --user www-data $(SERVICE_WEB_NAME)
 
-## —— Installation ——————————————————————————————————————————————————————————————————
+## —— Installation ———————————————————————————————————————————————————————————
 #*
 #* Run make setup, make install-config-dev and make up
 
 
-## —— Help ——————————————————————————————————————————————————————————————————
+## —— Help ———————————————————————————————————————————————————————————————————
 .DEFAULT_GOAL := help
 
 help: ## Outputs this help screen
 	@sed -e 's/Makefile//' $(MAKEFILE_LIST) | grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)|(^#\*)' | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m#\*/[31m/' | sed -e 's/\[32m##/\n\r[33m/'
 
-## —— Docker ——————————————————————————————————————————————————————————————————
+## —— Docker —————————————————————————————————————————————————————————————————
 setup: ## Setup docker
 	@echo
-	@echo "\033[031m —— Create .env file —————————————————————————————————————————————————————————————————— \033[0m"
+	@echo "\033[031m —— Create .env file ———————————————————————————————————————————————————————\033[0m"
 	@echo
 	@echo Leave empty for default value
 	@echo
@@ -86,7 +85,7 @@ exec: ## Execute command in container : make exec bash
 docker-info: ## Display docker config .env
 	@cat .env
 
-## —— Application ——————————————————————————————————————————————————————————————————
+## —— Application ————————————————————————————————————————————————————————————
 install-config-dev: ## Instal config if not exist
 ifeq ("$(wildcard $(CONFIG_DEST))","")
 	cp -r $(CONFIG_SOURCE) $(CONFIG_DEST)
@@ -94,7 +93,7 @@ else
 	@echo "\033[031m File $(CONFIG_DEST) already exist, remove first"
 endif
 
-## —— Symfony ——————————————————————————————————————————————————————————————————
+## —— Symfony ————————————————————————————————————————————————————————————————
 console: ## Execute commande in symfony : make console doctrine:schema:update
 	$(EXEC) $(CONSOLE) $(filter-out $@,$(MAKECMDGOALS))
 
