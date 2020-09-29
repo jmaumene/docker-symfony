@@ -6,6 +6,7 @@ ARG HOST_NAME="hostname.local"
 
 # Tools
 RUN apt-get update \
+&& apt-get upgrade -y \
 && apt-get install -y \
 curl \
 git \
