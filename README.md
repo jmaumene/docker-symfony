@@ -78,6 +78,11 @@ To enter in the docker :
 $ make exec bash
 ```
 
+to see all the available commands :
+```shell script
+$ make
+```
+
 ### Symfony
 
 To check the symfony requirements :
@@ -92,6 +97,6 @@ $ make exec "git config --global user.name 'Julien Maumené'"
 $ make exec "symfony new --full my_project_name"
 ```
 
-Move all files (including hidden files like .git directory) from your-project-directory/name-of-project-in-symfony/* to your-project-directory
+__Move all files (including hidden files like .git directory) from your-project-directory/name-of-project-in-symfony/* to your-project-directory__
 
 Go to www.project-url.local

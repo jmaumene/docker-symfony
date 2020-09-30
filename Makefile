@@ -22,7 +22,7 @@ HOST_NAME=project.local
 export
 
 #Symfony parameters
-CONSOLE=php app/console
+CONSOLE=php bin/console
 
 DC=docker-compose -p $(COMPOSE_PROJECT_NAME)
 EXEC=$(DC) exec --user www-data $(SERVICE_WEB_NAME)
@@ -103,3 +103,7 @@ console: ## Execute commande in symfony : make console doctrine:schema:update
 
 sf-check: ## Symfony check requirements
 	$(EXEC) symfony check:requirements
+
+## —— Composer ———————————————————————————————————————————————————————————————
+composer: ## Execute commande in symfony : make console doctrine:schema:update
+	$(EXEC) composer $(filter-out $@,$(MAKECMDGOALS))
